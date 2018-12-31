@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 
 const Context = React.createContext()
 
@@ -32,6 +32,15 @@ function reducerApp(state, payload) {
 const TodosProvider = ({ children }) => {
 
   const [todos, dispatch] = useReducer(reducerApp, [])
+
+  useEffect(() => {
+    let todosFromStorage = JSON.parse(localStorage.getItem('todoList'))
+    dispatch({ type: 'reset', todos: todosFromStorage || [] })
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('todoList', JSON.stringify(todos))
+  }, [todos])
 
   return <Context.Provider value={{ dispatch, todos }}>{children}</Context.Provider>
 

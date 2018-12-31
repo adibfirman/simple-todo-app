@@ -1,21 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Input, Button } from 'antd';
 
 import { TodosContext } from '../context';
 
 const Form = () => {
 
-  const {dispatch, todos} = useContext(TodosContext)
+  const {dispatch} = useContext(TodosContext)
   const [newTodo, setNewTodo] = useState('')
-
-  useEffect(() => {
-    let todosFromStorage = JSON.parse(localStorage.getItem('todoList'))
-    dispatch({ type: 'reset', todos: todosFromStorage || [] })
-  }, [])
-
-  useEffect(() => {
-    localStorage.setItem('todoList', JSON.stringify(todos))
-  }, [todos])
 
   function handleEnterPress(e) {
     if (e.key === 'Enter' && newTodo) {
